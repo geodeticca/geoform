@@ -1,0 +1,24 @@
+{
+    "name": "geodeticca/geoform",
+    "description": "Simple package for converting geospatial formats.",
+    "keywords": ["geospatial", "formats", "geojson"],
+    "license": "MIT",
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Geodeticca\\Geoform\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
