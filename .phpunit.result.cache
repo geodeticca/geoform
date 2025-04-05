@@ -1,0 +1,1 @@
+{"version":1,"defects":{"ResolverTest::testCreatePointFeatureFromGeometry":8,"FactoryTest::testCreatePointFeatureFromGeometry":7},"times":{"ResolverTest::testCreatePointFeatureFromGeometry":0.011,"FactoryTest::testCreatePointFeatureFromGeometry":0.001}}

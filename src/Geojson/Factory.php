@@ -4,20 +4,25 @@ namespace Geodeticca\Geoform\Geojson;
 
 class Factory
 {
-    public static function buildFeatureFromGeometry($geom, array $properties = [])
+    /**
+     * @param mixed $geom
+     * @param array $properties
+     * @return array
+     */
+    public static function buildFeatureFromGeometry(mixed $geom, array $properties = []) : array
     {
         if (is_string($geom)) {
-            $geom = json_decode($geom);
+            $geom = json_decode($geom, true);
         }
 
         $feature = new Feature();
-        $feature->seGeometry($geom);
+        $feature->setGeometry($geom);
         $feature->setProperties($properties);
 
         return [
             'type' => 'Feature',
             'geometry' => $geom,
-            'properties' => (object)$properties,
+            'properties' => $properties,
         ];
     }
 }

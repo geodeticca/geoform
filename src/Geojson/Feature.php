@@ -20,19 +20,19 @@ class Feature
     public array $properties = [];
 
     /**
-     * @param array $geometry
+     * @param array $geom
      * @return $this
      */
-    public function setGeometry(array $geometry): self
+    public function setGeometry(array $geom): self
     {
         $geometry = new Geometry();
 
-        if (array_key_exists('type', $geometry)){
-            $geometry->type = $geometry['type'];
+        if (array_key_exists('type', $geom)){
+            $geometry->type = $geom['type'];
         }
 
-        if (array_key_exists('coordinates', $geometry)){
-            $geometry->setCoordinates($geometry['coordinates']);
+        if (array_key_exists('coordinates', $geom)){
+            $geometry->setCoordinates($geom['coordinates']);
         }
 
         return $this;

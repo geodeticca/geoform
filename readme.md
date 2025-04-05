@@ -9,3 +9,8 @@ Run following composer command.
 ```
 composer require geodeticca/geoform
 ```
+
+Run tests
+```
+docker exec -it -w $PWD php83 ./vendor/bin/phpunit
+```
