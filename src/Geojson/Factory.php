@@ -7,9 +7,9 @@ class Factory
     /**
      * @param mixed $geom
      * @param array $properties
-     * @return array
+     * @return \Geodeticca\Geoform\Geojson\Feature
      */
-    public static function buildFeatureFromGeometry(mixed $geom, array $properties = []) : array
+    public static function buildFeatureFromGeometry(mixed $geom, array $properties = []) : Feature
     {
         if (is_string($geom)) {
             $geom = json_decode($geom, true);
@@ -19,10 +19,6 @@ class Factory
         $feature->setGeometry($geom);
         $feature->setProperties($properties);
 
-        return [
-            'type' => 'Feature',
-            'geometry' => $geom,
-            'properties' => $properties,
-        ];
+        return $feature;
     }
 }

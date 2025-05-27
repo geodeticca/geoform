@@ -2,7 +2,7 @@
 
 namespace Geodeticca\Geoform\Geojson;
 
-class Coordinate
+class Coordinate implements \JsonSerializable
 {
     /**
      * @var float
@@ -13,4 +13,15 @@ class Coordinate
      * @var float
      */
     public float $lat;
+
+    /**
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+            $this->lon,
+            $this->lat,
+        ];
+    }
 }

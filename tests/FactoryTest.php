@@ -18,6 +18,22 @@ class FactoryTest extends TestCase
     }
 
     /**
+     * @return string
+     */
+    private function lineString() : string
+    {
+        return '{
+            "type": "LineString", 
+            "coordinates": [
+                [102.0, 0.0],
+                [103.0, 1.0],
+                [104.0, 0.0],
+                [105.0, 1.0]
+            ]
+        }';
+    }
+
+    /**
      * @return array
      */
     private function pointFeature() : array
@@ -32,6 +48,26 @@ class FactoryTest extends TestCase
         }', true);
     }
 
+    /**
+     * @return array
+     */
+    private function lineStringFeature() : array
+    {
+        return json_decode('{
+            "type": "Feature",
+            "geometry": {
+               "type": "LineString",
+               "coordinates": [
+                    [102.0, 0.0],
+                    [103.0, 1.0],
+                    [104.0, 0.0],
+                    [105.0, 1.0]
+                ]
+            },
+            "properties": {}
+        }', true);
+    }
+
     public function testCreatePointFeatureFromGeometry()
     {
         $geometry = $this->point();
@@ -39,6 +75,16 @@ class FactoryTest extends TestCase
         $feature = GeojsonFactory::buildFeatureFromGeometry($geometry);
         $expectedFeature = $this->pointFeature();
 
-        $this->assertEquals($feature, $expectedFeature);
+        $this->assertEquals($feature->toArray(), $expectedFeature);
+    }
+
+    public function testCreateLinestringFeatureFromGeometry()
+    {
+        $geometry = $this->lineString();
+
+        $feature = GeojsonFactory::buildFeatureFromGeometry($geometry);
+        $expectedFeature = $this->lineStringFeature();
+
+        $this->assertEquals($feature->toArray(), $expectedFeature);
     }
 }

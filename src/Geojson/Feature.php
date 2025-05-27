@@ -35,6 +35,8 @@ class Feature
             $geometry->setCoordinates($geom['coordinates']);
         }
 
+        $this->geometry = $geometry;
+
         return $this;
     }
 
@@ -61,5 +63,13 @@ class Feature
         }
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return json_decode(json_encode($this), true);
     }
 }
