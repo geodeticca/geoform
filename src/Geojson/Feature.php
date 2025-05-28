@@ -27,11 +27,11 @@ class Feature
     {
         $geometry = new Geometry();
 
-        if (array_key_exists('type', $geom)){
+        if (array_key_exists('type', $geom)) {
             $geometry->type = $geom['type'];
         }
 
-        if (array_key_exists('coordinates', $geom)){
+        if (array_key_exists('coordinates', $geom)) {
             $geometry->setCoordinates($geom['coordinates']);
         }
 
@@ -70,6 +70,10 @@ class Feature
      */
     public function toArray(): array
     {
-        return json_decode(json_encode($this), true);
+        return [
+            'type' => $this->type,
+            'geometry' => $this->geometry->toArray(),
+            'properties' => $this->properties,
+        ];
     }
 }

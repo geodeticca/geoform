@@ -10,9 +10,9 @@ class Geometry
     public string $type;
 
     /**
-     * @var \Geodeticca\Geoform\Geojson\Coordinate|array
+     * @var \Geodeticca\Geoform\Geojson\Coordinate|\Geodeticca\Geoform\Geojson\CoordinateBag
      */
-    public Coordinate|array $coordinates;
+    public Coordinate|CoordinateBag $coordinates;
 
     /**
      * @param array $coordinates
@@ -23,9 +23,9 @@ class Geometry
         if ($this->type === 'Point') {
             $this->coordinates = self::createCoordinate($coordinates);
         } else {
-            $coordinatesBag = [];
+            $coordinatesBag = new CoordinateBag();
             foreach ($coordinates as $coordinate) {
-                $coordinatesBag[] = self::createCoordinate($coordinate);
+                $coordinatesBag->addCoordinate(self::createCoordinate($coordinate));
             }
 
             $this->coordinates = $coordinatesBag;
@@ -48,5 +48,16 @@ class Geometry
         }
 
         return $coordinate;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->type,
+            'coordinates' => $this->coordinates->toArray(),
+        ];
     }
 }

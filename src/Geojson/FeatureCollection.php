@@ -10,7 +10,37 @@ class FeatureCollection
     public string $type = 'FeatureCollection';
 
     /**
-     * @var array
+     * @var \Geodeticca\Geoform\Geojson\FeatureBag
      */
-    public array $features = [];
+    public FeatureBag $features;
+
+    /**
+     * FeatureCollection constructor.
+     */
+    public function __construct()
+    {
+        $this->features = new FeatureBag();
+    }
+
+    /**
+     * @param \Geodeticca\Geoform\Geojson\Feature $feature
+     * @return $this
+     */
+    public function addFeature(Feature $feature): self
+    {
+        $this->features->addFeature($feature);
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->type,
+            'features' => $this->features->toArray(),
+        ];
+    }
 }
