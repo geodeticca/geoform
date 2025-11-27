@@ -10,14 +10,31 @@ class Feature
     public string $type = 'Feature';
 
     /**
-     * @var \Geodeticca\Geoform\Geojson\Geometry
+     * @var \Geodeticca\Geoform\Geojson\Geometry|null
      */
-    public Geometry $geometry;
+    public Geometry|null $geometry = null;
 
     /**
      * @var array
      */
     public array $properties = [];
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function hydrate(array $data): self
+    {
+        if (array_key_exists('properties', $data)) {
+            $this->setProperties($data['properties']);
+        }
+
+        if (array_key_exists('geometry', $data)) {
+            $this->setGeometry($data['geometry']);
+        }
+
+        return $this;
+    }
 
     /**
      * @param array $geom

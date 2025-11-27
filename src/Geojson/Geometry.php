@@ -5,14 +5,14 @@ namespace Geodeticca\Geoform\Geojson;
 class Geometry
 {
     /**
-     * @var string
+     * @var string|null
      */
-    public string $type;
+    public string|null $type = null;
 
     /**
-     * @var \Geodeticca\Geoform\Geojson\Coordinate|\Geodeticca\Geoform\Geojson\CoordinateBag
+     * @var \Geodeticca\Geoform\Geojson\Coordinate|\Geodeticca\Geoform\Geojson\CoordinateBag|null
      */
-    public Coordinate|CoordinateBag $coordinates;
+    public Coordinate|CoordinateBag|null $coordinates = null;
 
     /**
      * @param array $coordinates
@@ -20,11 +20,20 @@ class Geometry
      */
     public function setCoordinates(array $coordinates): self
     {
+        if (
+            !array_key_exists('type', $coordinates) ||
+            !array_key_exists('coordinates', $coordinates)
+        ) {
+            throw new \InvalidArgumentException('Invalid coordinates argument structure');
+        }
+
+        $this->type = $coordinates['type'];
+
         if ($this->type === 'Point') {
-            $this->coordinates = self::createCoordinate($coordinates);
+            $this->coordinates = self::createCoordinate($coordinates['coordinates']);
         } else {
             $coordinatesBag = new CoordinateBag();
-            foreach ($coordinates as $coordinate) {
+            foreach ($coordinates['coordinates'] as $coordinate) {
                 $coordinatesBag->addCoordinate(self::createCoordinate($coordinate));
             }
 
