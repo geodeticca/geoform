@@ -5,11 +5,55 @@ namespace Geodeticca\Geoform\Geojson;
 class Factory
 {
     /**
-     * @param mixed $geom
-     * @param array $properties
+     * @param array $geojson
+     * @return FeatureCollection|Feature
+     */
+    public static function parse(array $geojson): FeatureCollection|Feature
+    {
+        if (!is_array($geojson)) {
+            throw new \InvalidArgumentException('Input must be an array or string');
+        }
+
+        if (array_key_exists('type', $geojson)) {
+            if ($geojson['type'] === 'FeatureCollection') {
+                $featureCollection = new FeatureCollection();
+                $featureCollection->hydrate($geojson);
+
+                return $featureCollection;
+            } elseif ($geojson['type'] === 'Feature') {
+                $feature = new Feature();
+                $feature->hydrate($geojson);
+
+                return $feature;
+            } else {
+                throw new \InvalidArgumentException('Invalid GeoJSON type');
+            }
+        } else {
+            throw new \InvalidArgumentException('Invalid GeoJSON structure');
+        }
+    }
+
+    /**
+     * @param mixed $feat
      * @return \Geodeticca\Geoform\Geojson\Feature
      */
-    public static function buildFeatureFromGeometry(mixed $geom, array $properties = []): Feature
+    public static function buildFeature(mixed $feat): Feature
+    {
+        if (is_string($feat)) {
+            $feat = json_decode($feat, true);
+        }
+
+        $feature = new Feature();
+        $feature->hydrate($feat);
+
+        return $feature;
+    }
+
+    /**
+     * @param mixed $geom
+     * @return \Geodeticca\Geoform\Geojson\Feature
+     */
+    public static function buildFeatureFromGeometry(mixed $geom): Feature
     {
         if (is_string($geom)) {
             $geom = json_decode($geom, true);
@@ -17,7 +61,6 @@ class Factory
 
         $feature = new Feature();
         $feature->setGeometry($geom);
-        $feature->setProperties($properties);
 
         return $feature;
     }
@@ -28,16 +71,10 @@ class Factory
      */
     public static function buildFeatureCollectionFromGeometries(array $geoms): FeatureCollection
     {
-        $geoms = array_map(function ($item) {
-            if (is_string($item)) {
-                return json_decode($item, true);
-            }
-        }, $geoms);
-
         $featureCollection = new FeatureCollection();
 
         foreach ($geoms as $geom) {
-            $feature = new Feature();
+            $feature = self::buildFeatureFromGeometry($geom);
             $feature->setGeometry($geom);
 
             $featureCollection->addFeature($feature);

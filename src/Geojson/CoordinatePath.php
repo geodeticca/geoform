@@ -2,7 +2,7 @@
 
 namespace Geodeticca\Geoform\Geojson;
 
-class CoordinateBag
+class CoordinatePath implements CoordinateInterior
 {
     /**
      * @var array
@@ -10,12 +10,12 @@ class CoordinateBag
     public array $bag = [];
 
     /**
-     * @param \Geodeticca\Geoform\Geojson\Coordinate $coordinate
+     * @param \Geodeticca\Geoform\Geojson\CoordinateBag $coordinateBag
      * @return $this
      */
-    public function add(Coordinate $coordinate): self
+    public function add(CoordinateBag $coordinateBag): self
     {
-        $this->bag[] = $coordinate;
+        $this->bag[] = $coordinateBag;
 
         return $this;
     }

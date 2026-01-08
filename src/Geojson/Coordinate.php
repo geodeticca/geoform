@@ -15,13 +15,24 @@ class Coordinate
     public float $lat;
 
     /**
+     * @var float|null
+     */
+    public ?float $z = null;
+
+    /**
      * @return array
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             $this->lon,
             $this->lat,
         ];
+
+        if ($this->z !== null) {
+            $data[] = $this->z;
+        }
+
+        return $data;
     }
 }

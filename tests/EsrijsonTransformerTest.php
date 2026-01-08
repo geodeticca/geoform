@@ -22,11 +22,8 @@ class EsrijsonTransformerTest extends TestCase
         ];
 
         $result = EsrijsonTransformer::esriJsonToGeojson($esriJson);
-        //print_r($result); exit;
-        //$this->assertInstanceOf(GeojsonFeature::class, $result);
+        $this->assertInstanceOf(GeojsonFeature::class, $result);
         $resultArray = $result->toArray();
-
-        //print_r($resultArray); exit;
 
         $expected = [
             'type' => 'Feature',
@@ -42,7 +39,6 @@ class EsrijsonTransformerTest extends TestCase
         $this->assertEquals($expected, $resultArray);
     }
 
-    /*
     public function testConvertEsriPointWithZToGeojson()
     {
         $esriJson = [
@@ -52,7 +48,9 @@ class EsrijsonTransformerTest extends TestCase
                 'z' => 50.0,
                 'spatialReference' => ['wkid' => 4326]
             ],
-            'attributes' => []
+            'attributes' => [
+                'name' => 'Test Point'
+            ]
         ];
 
         $result = EsrijsonTransformer::esriJsonToGeojson($esriJson);
@@ -60,8 +58,18 @@ class EsrijsonTransformerTest extends TestCase
         $this->assertInstanceOf(GeojsonFeature::class, $result);
         $resultArray = $result->toArray();
 
-        $this->assertEquals('Point', $resultArray['geometry']['type']);
-        $this->assertEquals([30.0, 10.0, 50.0], $resultArray['geometry']['coordinates']);
+        $expected = [
+            'type' => 'Feature',
+            'geometry' => [
+                'type' => 'Point',
+                'coordinates' => [30.0, 10.0, 50.0]
+            ],
+            'properties' => [
+                'name' => 'Test Point'
+            ]
+        ];
+
+        $this->assertEquals($expected, $resultArray);
     }
 
     public function testConvertEsriMultiPointToGeojson()
@@ -75,7 +83,7 @@ class EsrijsonTransformerTest extends TestCase
                 'spatialReference' => ['wkid' => 4326]
             ],
             'attributes' => [
-                'id' => 123
+                'name' => 'Test MultiPoint'
             ]
         ];
 
@@ -94,7 +102,7 @@ class EsrijsonTransformerTest extends TestCase
                 ]
             ],
             'properties' => [
-                'id' => 123
+                'name' => 'Test MultiPoint'
             ]
         ];
 
@@ -160,7 +168,9 @@ class EsrijsonTransformerTest extends TestCase
                 ],
                 'spatialReference' => ['wkid' => 4326]
             ],
-            'attributes' => []
+            'attributes' => [
+                'name' => 'Test LineString'
+            ]
         ];
 
         $result = EsrijsonTransformer::esriJsonToGeojson($esriJson);
@@ -183,7 +193,9 @@ class EsrijsonTransformerTest extends TestCase
                     ]
                 ]
             ],
-            'properties' => []
+            'properties' => [
+                'name' => 'Test LineString'
+            ]
         ];
 
         $this->assertEquals($expected, $resultArray);
@@ -205,7 +217,7 @@ class EsrijsonTransformerTest extends TestCase
                 'spatialReference' => ['wkid' => 4326]
             ],
             'attributes' => [
-                'area' => 'Test Area'
+                'name' => 'Test Polygon'
             ]
         ];
 
@@ -229,7 +241,7 @@ class EsrijsonTransformerTest extends TestCase
                 ]
             ],
             'properties' => [
-                'area' => 'Test Area'
+                'name' => 'Test Polygon'
             ]
         ];
 
@@ -258,7 +270,9 @@ class EsrijsonTransformerTest extends TestCase
                 ],
                 'spatialReference' => ['wkid' => 4326]
             ],
-            'attributes' => []
+            'attributes' => [
+                'name' => 'Test Polygon'
+            ]
         ];
 
         $result = EsrijsonTransformer::esriJsonToGeojson($esriJson);
@@ -266,8 +280,33 @@ class EsrijsonTransformerTest extends TestCase
         $this->assertInstanceOf(GeojsonFeature::class, $result);
         $resultArray = $result->toArray();
 
-        $this->assertEquals('Polygon', $resultArray['geometry']['type']);
-        $this->assertCount(2, $resultArray['geometry']['coordinates']);
+        $expected = [
+            'type' => 'Feature',
+            'geometry' => [
+                'type' => 'Polygon',
+                'coordinates' => [
+                    [
+                        [100.0, 0.0],
+                        [101.0, 0.0],
+                        [101.0, 1.0],
+                        [100.0, 1.0],
+                        [100.0, 0.0]
+                    ],
+                    [
+                        [100.2, 0.2],
+                        [100.8, 0.2],
+                        [100.8, 0.8],
+                        [100.2, 0.8],
+                        [100.2, 0.2]
+                    ]
+                ]
+            ],
+            'properties' => [
+                'name' => 'Test Polygon'
+            ]
+        ];
+
+        $this->assertEquals($expected, $resultArray);
     }
 
     public function testConvertEsriFeatureCollectionToGeojson()
@@ -478,5 +517,4 @@ class EsrijsonTransformerTest extends TestCase
         $this->assertIsArray($resultArray['properties']);
         $this->assertEmpty($resultArray['properties']);
     }
-    */
 }

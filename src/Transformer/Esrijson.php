@@ -21,18 +21,11 @@ class Esrijson
 
         if (array_key_exists('features', $esriJson)) {
             $esrijsonObject = new EsrijsonFeatureCollection();
-            $esrijsonObject->hydrate($esriJson);
         } else {
             $esrijsonObject = new EsrijsonFeature();
-
-            if (array_key_exists('geometry', $esriJson)) {
-                $esrijsonObject->setGeometry($esriJson['geometry']);
-            }
-
-            if (array_key_exists('attributes', $esriJson)) {
-                $esrijsonObject->setAttributes($esriJson['attributes']);
-            }
         }
+
+        $esrijsonObject->hydrate($esriJson);
 
         return $esrijsonObject->toGeojson();
     }

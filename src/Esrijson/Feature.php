@@ -23,7 +23,7 @@ class Feature
     public function hydrate(array $data): self
     {
         if (array_key_exists('attributes', $data)) {
-            $this->setProperties($data['attributes']);
+            $this->setAttributes($data['attributes']);
         }
 
         if (array_key_exists('geometry', $data)) {
@@ -40,14 +40,14 @@ class Feature
      */
     public function toGeojson(): GeojsonFeature
     {
-        $geojson = new GeojsonFeature();
+        $geojsonFeature = new GeojsonFeature();
 
-        $geojson->hydrate([
+        $geojsonFeature->hydrate([
             'geometry' => $this->geometry->toGeojson()->toArray(),
             'properties' => $this->attributes,
         ]);
 
-        return $geojson;
+        return $geojsonFeature;
     }
 
     /**
@@ -74,9 +74,9 @@ class Feature
      * Build Point from array data
      *
      * @param string|array $data
-     * @return \Geodeticca\Geoform\Esrijson\Geometry|\Geodeticca\Geoform\Esrijson\Point
+     * @return \Geodeticca\Geoform\Esrijson\Point
      */
-    public function buildPoint(string|array $data): Geometry|Point
+    public function buildPoint(string|array $data): Point
     {
         if (is_string($data)) {
             $data = json_decode($data, true);
@@ -89,9 +89,9 @@ class Feature
      * Build Multipoint from array data
      *
      * @param string|array $data
-     * @return \Geodeticca\Geoform\Esrijson\Geometry|\Geodeticca\Geoform\Esrijson\Multipoint
+     * @return \Geodeticca\Geoform\Esrijson\Multipoint
      */
-    public function buildMultipoint(string|array $data): Geometry|Multipoint
+    public function buildMultipoint(string|array $data): Multipoint
     {
         if (is_string($data)) {
             $data = json_decode($data, true);
@@ -104,9 +104,9 @@ class Feature
      * Build Polyline from array data
      *
      * @param string|array $data
-     * @return \Geodeticca\Geoform\Esrijson\Geometry|\Geodeticca\Geoform\Esrijson\Polyline
+     * @return \Geodeticca\Geoform\Esrijson\Polyline
      */
-    public function buildPolyline(string|array $data): Geometry|Polyline
+    public function buildPolyline(string|array $data): Polyline
     {
         if (is_string($data)) {
             $data = json_decode($data, true);
@@ -119,9 +119,9 @@ class Feature
      * Build Polygon from array data
      *
      * @param string|array $data
-     * @return \Geodeticca\Geoform\Esrijson\Geometry|\Geodeticca\Geoform\Esrijson\Polygon
+     * @return \Geodeticca\Geoform\Esrijson\Polygon
      */
-    public function buildPolygon(string|array $data): Geometry|Polygon
+    public function buildPolygon(string|array $data): Polygon
     {
         if (is_string($data)) {
             $data = json_decode($data, true);

@@ -1,16 +1,13 @@
 <?php
 
-namespace Geodeticca\Geoform\Geojson;
+namespace Geodeticca\Geoform\Esrijson;
+
+use Geodeticca\Geoform\Geojson\FeatureCollection as GeojsonFeatureCollection;
 
 class FeatureCollection
 {
     /**
-     * @var string
-     */
-    public string $type = 'FeatureCollection';
-
-    /**
-     * @var \Geodeticca\Geoform\Geojson\FeatureBag
+     * @var \Geodeticca\Geoform\Esrijson\FeatureBag
      */
     public FeatureBag $features;
 
@@ -23,7 +20,7 @@ class FeatureCollection
     }
 
     /**
-     * @param \Geodeticca\Geoform\Geojson\Feature $feature
+     * @param \Geodeticca\Geoform\Esrijson\Feature $feature
      * @return $this
      */
     public function addFeature(Feature $feature): self
@@ -39,7 +36,6 @@ class FeatureCollection
      */
     public function hydrate(array $data): self
     {
-        //print_r($data);
         if (array_key_exists('features', $data)) {
             $featuresData = $data['features'];
 
@@ -50,8 +46,22 @@ class FeatureCollection
                 $this->addFeature($feature);
             }
         }
-print_r($this); exit;
+
         return $this;
+    }
+
+    /**
+     * Convert to GeoJSON
+     *
+     * @return \Geodeticca\Geoform\Geojson\FeatureCollection
+     */
+    public function toGeojson(): GeojsonFeatureCollection
+    {
+        $geojson = new GeojsonFeatureCollection();
+
+        return $geojson->hydrate([
+            'features' => $this->features->toArray(),
+        ]);
     }
 
     /**
@@ -60,7 +70,6 @@ print_r($this); exit;
     public function toArray(): array
     {
         return [
-            'type' => $this->type,
             'features' => $this->features->toArray(),
         ];
     }
