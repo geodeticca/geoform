@@ -320,7 +320,7 @@ class EsrijsonTransformerTest extends TestCase
                         'spatialReference' => ['wkid' => 4326]
                     ],
                     'attributes' => [
-                        'name' => 'Point 1'
+                        'name' => 'Test Point 1'
                     ]
                 ],
                 [
@@ -330,7 +330,7 @@ class EsrijsonTransformerTest extends TestCase
                         'spatialReference' => ['wkid' => 4326]
                     ],
                     'attributes' => [
-                        'name' => 'Point 2'
+                        'name' => 'Test Point 2'
                     ]
                 ]
             ]
@@ -341,10 +341,37 @@ class EsrijsonTransformerTest extends TestCase
         $this->assertInstanceOf(GeojsonFeatureCollection::class, $result);
         $resultArray = $result->toArray();
 
-        $this->assertEquals('FeatureCollection', $resultArray['type']);
-        $this->assertCount(2, $resultArray['features']);
-        $this->assertEquals('Point 1', $resultArray['features'][0]['properties']['name']);
-        $this->assertEquals('Point 2', $resultArray['features'][1]['properties']['name']);
+        $expected = [
+            'type' => 'FeatureCollection',
+            'features' => [
+                [
+                    'type' => 'feature',
+                    'geometry' => [
+                        'type' => 'Polygon',
+                        'coordinates' => [
+                            [30.0, 10.0]
+                        ]
+                    ],
+                    'properties' => [
+                        'name' => 'Test Point 1'
+                    ]
+                ],
+                [
+                    'type' => 'feature',
+                    'geometry' => [
+                        'type' => 'Polygon',
+                        'coordinates' => [
+                            [50.0, 25.0]
+                        ]
+                    ],
+                    'properties' => [
+                        'name' => 'Test Point 2'
+                    ]
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $resultArray);
     }
 
     public function testConvertEsriJsonStringToGeojson()

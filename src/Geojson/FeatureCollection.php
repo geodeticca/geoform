@@ -39,18 +39,19 @@ class FeatureCollection
      */
     public function hydrate(array $data): self
     {
-        //print_r($data);
         if (array_key_exists('features', $data)) {
             $featuresData = $data['features'];
 
             foreach ($featuresData as $featureData) {
+                print_r($featureData); exit;
                 $feature = new Feature();
                 $feature->hydrate($featureData);
 
                 $this->addFeature($feature);
             }
         }
-print_r($this); exit;
+        //print_r($this); exit;
+        
         return $this;
     }
 

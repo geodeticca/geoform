@@ -40,8 +40,11 @@ class FeatureBag
      */
     public function toArray(): array
     {
-        return array_map(function ($item) {
-            return $item->toArray();
-        }, $this->bag);
+        $bagItems = [];
+        foreach ($this->bag as $item) {
+            $bagItems[] = $item->toArray();
+        }
+
+        return $bagItems;
     }
 }
