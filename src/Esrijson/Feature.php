@@ -7,9 +7,9 @@ use Geodeticca\Geoform\Geojson\Feature as GeojsonFeature;
 class Feature
 {
     /**
-     * @var \Geodeticca\Geoform\Esrijson\Geometry
+     * @var \Geodeticca\Geoform\Esrijson\Geometry|null
      */
-    public Geometry $geometry;
+    public ?Geometry $geometry = null;
 
     /**
      * @var array
@@ -27,7 +27,7 @@ class Feature
         }
 
         if (array_key_exists('geometry', $data)) {
-            $this->setGeometry($data['geometry']);
+            $this->createGeometry($data['geometry']);
         }
 
         return $this;
@@ -41,11 +41,9 @@ class Feature
     public function toGeojson(): GeojsonFeature
     {
         $geojsonFeature = new GeojsonFeature();
+        $geojsonFeature->setGeometry($this->geometry->toGeojson());
 
-        $geojsonFeature->hydrate([
-            'geometry' => $this->geometry->toGeojson()->toArray(),
-            'properties' => $this->attributes,
-        ]);
+        $geojsonFeature->setProperties($this->attributes);
 
         return $geojsonFeature;
     }
@@ -54,7 +52,7 @@ class Feature
      * @param array $geometry
      * @return $this
      */
-    public function setGeometry(array $geometry): self
+    public function createGeometry(array $geometry): self
     {
         // Detect geometry type by structure
         if (array_key_exists('x', $geometry) && array_key_exists('y', $geometry)) {

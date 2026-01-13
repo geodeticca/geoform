@@ -34,6 +34,19 @@ class FeatureCollection
     }
 
     /**
+     * @param array $features
+     * @return $this
+     */
+    public function setFeatures(array $features): self
+    {
+        foreach ($features as $feature) {
+            $this->addFeature($feature);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param mixed $data
      * @return $this
      */
@@ -43,15 +56,13 @@ class FeatureCollection
             $featuresData = $data['features'];
 
             foreach ($featuresData as $featureData) {
-                print_r($featureData); exit;
                 $feature = new Feature();
                 $feature->hydrate($featureData);
 
                 $this->addFeature($feature);
             }
         }
-        //print_r($this); exit;
-        
+
         return $this;
     }
 

@@ -21,8 +21,11 @@ class Esrijson
 
         if (array_key_exists('features', $esriJson)) {
             $esrijsonObject = new EsrijsonFeatureCollection();
+        } elseif (array_key_exists('feature', $esriJson)) {
+            $esrijsonObject = new EsrijsonFeature();
         } else {
             $esrijsonObject = new EsrijsonFeature();
+            $esrijsonObject->createGeometry($esriJson);
         }
 
         $esrijsonObject->hydrate($esriJson);

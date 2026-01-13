@@ -345,24 +345,20 @@ class EsrijsonTransformerTest extends TestCase
             'type' => 'FeatureCollection',
             'features' => [
                 [
-                    'type' => 'feature',
+                    'type' => 'Feature',
                     'geometry' => [
-                        'type' => 'Polygon',
-                        'coordinates' => [
-                            [30.0, 10.0]
-                        ]
+                        'type' => 'Point',
+                        'coordinates' => [30.0, 10.0]
                     ],
                     'properties' => [
                         'name' => 'Test Point 1'
                     ]
                 ],
                 [
-                    'type' => 'feature',
+                    'type' => 'Feature',
                     'geometry' => [
-                        'type' => 'Polygon',
-                        'coordinates' => [
-                            [50.0, 25.0]
-                        ]
+                        'type' => 'Point',
+                        'coordinates' => [50.0, 25.0]
                     ],
                     'properties' => [
                         'name' => 'Test Point 2'

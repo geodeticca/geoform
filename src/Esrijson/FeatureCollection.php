@@ -46,7 +46,6 @@ class FeatureCollection
                 $this->addFeature($feature);
             }
         }
-        //print_r($this); exit;
 
         return $this;
     }
@@ -60,9 +59,9 @@ class FeatureCollection
     {
         $geojson = new GeojsonFeatureCollection();
 
-        return $geojson->hydrate([
-            'features' => $this->features->toGeojson(),
-        ]);
+        $geojson->setFeatures($this->features->toGeojson());
+
+        return $geojson;
     }
 
     /**

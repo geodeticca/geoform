@@ -108,7 +108,7 @@ class Polygon extends Geometry
 
         $geometry = new GeojsonGeometry();
         $geometry->type = 'Polygon';
-        //print_r($processedRings);
+
         $geometry->setCoordinates($processedRings);
 
         return $geometry;

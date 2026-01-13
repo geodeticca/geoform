@@ -30,7 +30,7 @@ class Feature
         }
 
         if (array_key_exists('geometry', $data)) {
-            $this->setGeometry($data['geometry']);
+            $this->createGeometry($data['geometry']);
         }
 
         return $this;
@@ -40,7 +40,7 @@ class Feature
      * @param array $geom
      * @return $this
      */
-    public function setGeometry(array $geom): self
+    public function createGeometry(array $geom): self
     {
         $geometry = new Geometry();
 
@@ -49,10 +49,20 @@ class Feature
         }
 
         if (array_key_exists('coordinates', $geom)) {
-            //print_r($geom['coordinates']);
             $geometry->setCoordinates($geom['coordinates']);
         }
 
+        $this->geometry = $geometry;
+
+        return $this;
+    }
+
+    /**
+     * @param \Geodeticca\Geoform\Geojson\Geometry $geometry
+     * @return $this
+     */
+    public function setGeometry(Geometry $geometry): self
+    {
         $this->geometry = $geometry;
 
         return $this;

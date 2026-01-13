@@ -60,7 +60,7 @@ class Factory
         }
 
         $feature = new Feature();
-        $feature->setGeometry($geom);
+        $feature->createGeometry($geom);
 
         return $feature;
     }
@@ -75,7 +75,6 @@ class Factory
 
         foreach ($geoms as $geom) {
             $feature = self::buildFeatureFromGeometry($geom);
-            $feature->setGeometry($geom);
 
             $featureCollection->addFeature($feature);
         }
